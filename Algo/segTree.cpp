@@ -1,3 +1,6 @@
+// O(logN) operations
+// larger constant factors
+
 #include "bits/stdc++.h"
 
 using namespace std;

@@ -1,6 +1,9 @@
 // binary indexed tree
 // or fenwick tree
 
+// O(log N) operations
+// O(N) space
+// O(NlogN) for preprocessings
 
 #include "bits/stdc++.h"
 

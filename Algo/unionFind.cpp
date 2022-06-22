@@ -1,3 +1,5 @@
+// O(logN) operations
+
 #include "bits/stdc++.h"
 
 using namespace std;
