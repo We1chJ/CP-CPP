@@ -1,3 +1,6 @@
+// Dijkstra to find min dis from source node to all other nodes
+// O(MlogN)
+
 #include "bits/stdc++.h"
 
 using namespace std;
