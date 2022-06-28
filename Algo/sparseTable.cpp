@@ -1,5 +1,5 @@
 // sparse table good for min query
-
+// O(NlogN) precomputation
 #include "bits/stdc++.h"
 
 using namespace std;
