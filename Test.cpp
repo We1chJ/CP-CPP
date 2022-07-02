@@ -5,10 +5,8 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int var = 7, foo = 8;
-
-    int& ref = var;
-    cout << &ref << " " << &var << endl;
-
-    cout << ref << " " << &ref << " " << &foo << endl;
+    set<pair<int, int>> s;
+    s.insert({1, 89});
+    s.insert({1, 35235});
+    cout << s.size() << endl;
 }
