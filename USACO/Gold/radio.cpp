@@ -5,11 +5,10 @@ using ll = long long;
 ll dp[1001][1001];
 string strn, strm;
 
-
 ll dis[1001][1001];
 
-int col[] = {-1, 1, 0, 0};
-int row[] = {0, 0, -1, 1};
+int dx[] = {0, 0, -1, 1};
+int dy[] = {1, -1, 0, 0};
 
 ll d(int ax, int ay, int bx, int by){
     return abs(ax - bx) * abs(ax - bx) + abs(ay - by) * abs(ay - by);
@@ -23,24 +22,24 @@ int main(){
     cin >> n >> m;
     int nx, ny, mx, my;
     cin >> nx >> ny >> mx >> my;
-    
+
     cin >> strn >> strm;
     int curnx, curny, curmx, curmy;
     curnx = nx, curny = ny, curmx = mx, curmy = my;
     for(int i = 0; i <= n; i++){
         if(i != 0){
-            if(strn[i-1] == 'N') { curnx += row[0]; curny += col[0];}
-            if(strn[i-1] == 'S') { curnx += row[1]; curny += col[1];}
-            if(strn[i-1] == 'W') { curnx += row[2]; curny += col[2];}
-            if(strn[i-1] == 'E') { curnx += row[3]; curny += col[3];}
+            if(strn[i-1] == 'N') { curnx += dx[0]; curny += dy[0];}
+            if(strn[i-1] == 'S') { curnx += dx[1]; curny += dy[1];}
+            if(strn[i-1] == 'W') { curnx += dx[2]; curny += dy[2];}
+            if(strn[i-1] == 'E') { curnx += dx[3]; curny += dy[3];}
         }
         curmx = mx, curmy = my;
         for(int j = 0; j <= m; j++){
             if(j != 0){
-                if(strm[j-1] == 'N') { curmx += row[0]; curmy += col[0];}
-                if(strm[j-1] == 'S') { curmx += row[1]; curmy += col[1];}
-                if(strm[j-1] == 'W') { curmx += row[2]; curmy += col[2];}
-                if(strm[j-1] == 'E') { curmx += row[3]; curmy += col[3];}
+                if(strm[j-1] == 'N') { curmx += dx[0]; curmy += dy[0];}
+                if(strm[j-1] == 'S') { curmx += dx[1]; curmy += dy[1];}
+                if(strm[j-1] == 'W') { curmx += dx[2]; curmy += dy[2];}
+                if(strm[j-1] == 'E') { curmx += dx[3]; curmy += dy[3];}
             }
             dis[i][j] = d(curnx, curny, curmx, curmy);
         }
@@ -60,5 +59,4 @@ int main(){
         }
     }
     cout << dp[n][m] << endl;
-    
 }
