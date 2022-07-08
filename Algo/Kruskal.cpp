@@ -19,7 +19,7 @@ void unite(int a, int b){
     int pa = find(a);
     int pb = find(b);
 
-    if(height[pa] > height[pb]) {
+    if(height[pa] < height[pb]) {
         swap(a, b);
         swap(pa, pb);
     }
