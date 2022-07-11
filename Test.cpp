@@ -1,12 +1,19 @@
 #include "bits/stdc++.h"
 
 using namespace std;
+int cow[] = {2,1,4,-5,6};
+auto compare = [](int a, int b){
+    return cow[a] > cow[b];
+};
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+     
+    priority_queue<int, vector<int>, decltype(compare) > pq(compare);
+    for(int i = 0 ; i < 5; i++)
+        pq.push(i);
 
-    set<pair<int, int>> s;
-    s.insert({1, 89});
-    s.insert({1, 35235});
-    cout << s.size() << endl;
+    for(int i = 0; i < 5; i ++){
+        cout << cow[pq.top()] << endl;
+        pq.pop();
+    }
+
 }
