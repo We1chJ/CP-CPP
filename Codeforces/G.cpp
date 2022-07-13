@@ -13,34 +13,23 @@ int main()
         cin >> n >> k;
         long long ans = 0;
         int arr[n];
-        long long sum = 0;
         for(int i =0; i < n; i++){
             int num;
             cin >> num;
-            sum += num;
             arr[i] = num;
         }
-        bool flag = true;
-        int cnt = 1;
-        for(int i =0;i <n-1; i++){
-            if(flag){
-                long long val1 = arr[i] - k + arr[i+1]/2;
-                long long val2 = arr[i]/2 + arr[i+1]/4;
-                if(val1 < val2){
-                    flag = false;
-                    ans += arr[i]/2;
-                    cnt++;
-                }else
-                    ans += arr[i] - k;
-            }else{
-                ans += arr[i]/(1 << cnt);
-                cnt++;
+        long long sum = 0;
+        for(int i = -1; i < n ; i++){
+            long long cur = sum;
+            for(int j = i+1; j < min(n, i+32); j++){
+                int a = arr[j];
+                a /= 1 << (j-i);
+                cur += a;
             }
+            ans = max(ans, cur);
+            if(i+1 != n)
+                sum += arr[i+1] -k;
         }
-        if(flag)
-            ans += max(arr[n-1] - k, arr[n-1]/2);
-        else
-            ans += arr[n-1]/(1 << cnt);
         cout << ans << endl;
     }
 }
