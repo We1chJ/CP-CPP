@@ -16,40 +16,20 @@ int main(){
         int n, x;
         cin >> n >> x;
         vector<int> v(2*n);
-        bool visited[2*n];
         for(int i = 0; i < n*2 ; i++){
             int num;
             cin >> num;
             v[i] = num;
-            visited[i] = false;
         }
-
-        set<Edge,bool(*)(const Edge&,const Edge&)> s(cmp);
-
-        for(int i = 0; i < 2*n; i++){
-            for(int j = i+1; j < 2*n; j++){
-                int dif = v[i] - v[j];
-                Edge e;
-                e.a = i;
-                e.b = j;
-                e.dif = abs(dif);
-                if(e.dif < x) continue;
-                s.insert(e);
+        sort(v.begin(), v.end());
+        bool flag = true;
+        for(int i = 0; i < n ; i++){
+            if(v[i+n] - v[i] < x){
+               flag = false;
+               break;
             }
         }
-        int cnt = 0;
-        for(auto a : s){
-            int dif = a.dif;
-            int from = a.a;
-            int to = a.b;
-            if(!visited[from] && !visited[to]){
-                visited[from] = visited[to] = true;
-                cnt ++;
-            }
-            if(cnt == n) break;
-        }
-
-        if(cnt == n) cout << "YES" << endl;
-        else cout << "NO" << endl;
+        if(flag) cout << "YES" << endl;
+        else  cout << "NO" << endl;
     } 
 }
