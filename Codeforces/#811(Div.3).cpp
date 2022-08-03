@@ -1,73 +1,56 @@
 #include "bits/stdc++.h"
 using namespace std;
+#define len(s) (int) s.size()
+bool found;
+int ans;
 
-using ll = long long;
 
-struct Foo{
-    int l, w, pos;
-};
-bool cmp(const Foo& x, const Foo& y) { return x.l < y.l; }
+void find(int st, int en, string &s, vector<string> &v, vector<pair<int, int>> &match){
+    int Max = 0, id = -1, pos = -1;
+    for(int i = st; i <= en; i++){
+        for(int j = 0; j < len(v); j++){
+            string str = v[j];
+            if(i + len(str) > len(s) || i + len(str) <= en) continue;
+            if(s.substr(i, len(str)) == str){
+                if(i + len(str) > Max){
+                    Max = i + len(str);
+                    id = j;
+                    pos = i;
+                }
+            }
+        }
+    }
+    if(id == -1){
+        found = false;
+        return;
+    }else{
+        match.push_back({id, pos});
+        ans++;
+        if(Max == len(s)) return;
+        else find(en + 1, Max, s, v, match);
+    }
+}
 
-vector<string> v(11);
-vector<int> oc (101);
 int main(){
-    cin.tie(0) -> sync_with_stdio(0);
     int t;
     cin >> t;
-    here : while(t--){
-        string str;
-        cin >> str;
-        int n;
+    while(t--){
+        found = true;
+        ans = 0;
+        string s;
+        cin >> s;
+        int n ;
         cin >> n;
-        
-        for(int i = 0; i < n ; i++){
+        vector<string> v(n);
+        for(int i = 0; i < n ;i ++){
             cin >> v[i];
         }
-        for(int i = 0; i < str.size(); i++)
-            oc[i] = 0;
-
-        vector<Foo> p;
-        for(int a = 0; a < n; a++){
-            string s = v[a];
-            for(int i = 0; i < str.size(); i++){
-                if(i + s.length() <= str.size() && s == str.substr(i,s.length())){
-                    for(int j = i; j < i + s.length(); j++)
-                        oc[j] ++;
-                    Foo f;
-                    f.l = s.length();
-                    f.pos = i;
-                    f.w = a;
-                    p.push_back(f);
-                }
-            }
-        }
-
-        for(int i = 0; i < str.length(); i++){
-            int a = oc[i];
-            if(a == 0){
-                cout << -1 << endl;
-                goto here;
-            }
-        }
-        sort(p.begin(), p.end(), cmp);
-        string ans = "";
-        int cnt = 0;
-        for(auto a : p){
-            bool done = false;
-            for(int i = a.pos; i < a.pos + a.l; i++){
-                if(oc[i] == 1){
-                    ans += to_string(a.w+1)  +  " " + to_string(a.pos+1) + "\n";
-                    cnt ++;
-                    done = true;
-                    break;
-                }
-            }
-            if(done) continue;
-            for(int i = a.pos; i < a.pos + a.l; i++){
-                oc[i]--;
-            }
-        }
-        cout << cnt  << endl;
-        cout << ans;
+        vector<pair<int, int>> match;
+        find(0, 0, s, v, match);
+        if(!found) cout << -1 << endl;
+        else{
+            cout << ans << endl;
+            for(auto a: match) cout << a.first+1 << " " << a.second+1 << endl;
+        } 
     }
 }
