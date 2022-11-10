@@ -1,19 +1,22 @@
 #include "bits/stdc++.h"
 
 using namespace std;
-int cow[] = {2,1,4,-5,6};
-auto compare = [](int a, int b){
-    return cow[a] > cow[b];
-};
+using ll = long long;
+ll arr[200001];
 int main(){
-     
-    priority_queue<int, vector<int>, decltype(compare) > pq(compare);
-    for(int i = 0 ; i < 5; i++)
-        pq.push(i);
 
-    for(int i = 0; i < 5; i ++){
-        cout << cow[pq.top()] << endl;
-        pq.pop();
+    cin.tie(0)->sync_with_stdio(0);
+    int n, q;
+    cin >> n >> q;
+    for(int i = 0; i <n ;i ++){
+        int a ;
+        cin >> a;
+        arr[i+1] = arr[i] + a;
     }
-
+    for(int i = 0; i < q; i++){
+        int a, b;
+        cin >> a >> b;
+        ll dif = (arr[b] - arr[a-1]);
+        cout << dif << endl;
+    }
 }
