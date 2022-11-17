@@ -2,44 +2,38 @@
 using namespace std;
 
 using ll = long long;
+const int MAX = 2e5;
+const int k = 18;
 
-vector<pair<int, int>> adj[100001];
-bool visited[100001];
+int st[MAX][k+1];
+
+
 
 int main(){
-
     cin.tie(0)->sync_with_stdio(0);
-    int n, m;
-    cin >> n >> m;
-    for(int i = 1; i <= m; i++){
-        int a, b, c;
-        cin >> a >> b>> c;
-        adj[a].push_back({b, c});
-        adj[b].push_back({a, c});
+    int n, q;
+    cin >> n >> q;
+    
+    for(int i = 0; i < n; i++){
+        cin >> st[i][0];
     }
 
-    using T = tuple <int, int ,int>;
-    priority_queue<T, vector<T>, greater<T>> pq;
-
-    visited[1] = true;
-
-    for(auto e : adj[1]){
-        pq.push({e.second, 1, e.first});
-    }
-    ll ans = 0;
-    int cnt = 0;
-    while(!pq.empty()){
-        int a, b, c;
-        tie(c, a, b) = pq.top();
-        pq.pop();
-        if(visited[b]) continue;
-        visited[b] = true;
-        ans += c;
-        cnt ++ ;
-        for(auto e : adj[b]){
-            pq.push({e.second, b, e.first});
+    for(int pow = 1; pow <= k; pow++){
+        for(int i = 0; i + (1 << pow) <= n; i++){
+            st[i][pow] = min(st[i][pow-1], st[i + (1 << (pow-1))][pow-1]);
         }
     }
-    if(cnt != n-1) cout << "IMPOSSIBLE" <<endl;
-    else cout << ans << endl;
+    int log[MAX + 1];
+    log[1] = 0;
+    for(int i = 2; i <= MAX; i++){
+        log[i] = log[i/2] + 1;
+    }
+
+    for(int i = 0; i < q; i++){
+        int a, b;
+        cin >> a >> b;
+        a -= 1;
+        b -= 1;
+        cout << min(st[a][log[b-a+1]], st[b - (1 << log[b-a+1]) + 1][log[b-a+1]]) << endl;
+    }
 }
