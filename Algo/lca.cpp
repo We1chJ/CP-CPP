@@ -5,7 +5,7 @@ using namespace std;
 vector<int> adj[200001];
 int cnt = 0;
 int st[200001];
-int depth[200001];
+
 int seg[800004];
 
 int n, q;
@@ -32,13 +32,12 @@ int query(int a, int b){
 }
 
 void dfs(int node, int parent){
-    depth[node] = depth[parent] + 1;
     st[node] = cnt;
-    update(cnt++, depth[node], 2*n);
+    update(cnt++, node, 2*n);
     for(auto a : adj[node]){
         if(a != parent){
             dfs(a, node);
-            update(cnt++, depth[node], 2*n);
+            update(cnt++, node, 2*n);
         }
     }
 }
@@ -48,10 +47,10 @@ int main(){
     cin >> n >> q;
         
     for(int i = 2; i <= n; i++){
-        int a, b;
-        cin >> a >> b;
-        adj[a].push_back(b);
-        adj[b].push_back(a);
+        int a;
+        cin >> a;
+        adj[a].push_back(i);
+        adj[i].push_back(a);
     }
     
     dfs(1, 0);
@@ -60,6 +59,6 @@ int main(){
         int a, b;
         cin >> a >> b;
         if(st[a] > st[b]) swap(a, b);
-        cout << depth[a] + depth[b] - 2*query(st[a], st[b]) << endl;
+        cout << query(st[a], st[b]) << endl;
     }
 }
