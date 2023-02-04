@@ -8,7 +8,7 @@ int dc[] = {3, 2, 1, 0, -1, -2, -3, -2, -1, 0, 1, 2, 0, 0, -1, 1};
 
 int main(){
     freopen("visitfj.in", "r", stdin);
-    freopen("visitfj.out", "w",)
+    freopen("visitfj.out", "w", stdout);
     int N, T;
     cin >> N >> T;
 
