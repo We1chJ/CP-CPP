@@ -22,8 +22,8 @@ int que[200000];
 int cur, len;
 
 int main(){
-    freopen("piepie.in", "r", stdin);
-    freopen("piepie.out", "w", stdout);
+    // freopen("piepie.in", "r", stdin);
+    // freopen("piepie.out", "w", stdout);
     cin.tie(0) -> sync_with_stdio(0);
     cin >> n >> d;
     for(int i =0 ; i < 2*n; i++){
