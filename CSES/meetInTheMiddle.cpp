@@ -1,89 +1,50 @@
-// #include "bits/stdc++.h"
-
-// using namespace std;
-// using ll = long long;
-// int main(){
-
-//     cin.tie(0) -> sync_with_stdio(0);
-
-//     int n, x;
-//     cin >> n >> x;
-//     vector<int> vec(n);
-//     unordered_map<ll, ll> left, right;
-
-//     for(int i = 0; i < n; i ++){
-//         cin >> vec[i];
-//     }
-
-//     for(int i = 0; i < (1 << (n/2)); i++){
-//         ll sum = 0;
-//         for(int j = 0; j < n/2; j++){
-//             if(i & (1 << j)){
-//                 sum += vec[j];
-//             }
-//         }
-//         left[sum]++;
-//     }
-//     for(int i = 0; i < (1 << (n-n/2)); i++){
-//         ll sum = 0;
-//         for(int j = 0; j < (n-n/2); j++){
-//             if(i & (1 << j)){
-//                 sum += vec[j + n/2];
-//             }
-//         }
-//         right[sum]++;
-//     }
-
-//     ll ans = 0;
-//     for(auto num : left){
-//         ans += right[x - num.first] * num.second;
-//     }
-//     cout << ans << endl;
-// }
-
-
-
 #include "bits/stdc++.h"
 
 using namespace std;
 using ll = long long;
+
 int main(){
-
-    cin.tie(0) -> sync_with_stdio(0);
-
+    cin.tie(0) ->sync_with_stdio(0);
+    
     int n, x;
     cin >> n >> x;
-    vector<int> vec(n);
-    vector<ll> left, right;
 
-    for(int i = 0; i < n; i ++){
-        cin >> vec[i];
+    vector<int> arr (n);
+    for(int i = 0 ; i < n ; i++){
+        cin >> arr[i];
     }
 
+    vector<ll> sums1;
     for(int i = 0; i < (1 << (n/2)); i++){
-        ll sum = 0;
-        for(int j = 0; j < n/2; j++){
+        ll t = 0;
+        for(int j = 0; (1 << j) <= i; j++){
             if(i & (1 << j)){
-                sum += vec[j];
+                t += arr[j];
             }
         }
-        left.push_back(sum);
+        sums1.push_back(t);
     }
-    for(int i = 0; i < (1 << (n-n/2)); i++){
-        ll sum = 0;
-        for(int j = 0; j < (n-n/2); j++){
+    vector<ll> sums2;
+    for(int i  = 0; i < (1 << (n - n/2)); i++){
+        ll t = 0;
+        for(int j = 0; (1 << j) <= i; j++){
             if(i & (1 << j)){
-                sum += vec[j + n/2];
+                t += arr[(n/2) + j];
             }
         }
-        right.push_back(sum);
+        sums2.push_back(t);
     }
 
-    sort(left.begin(), left.end()); 
-	sort(right.begin(), right.end());
+    sort(sums1.begin(), sums1.end());       
+    sort(sums2.begin(), sums2.end());       
+
     ll ans = 0;
-    for(ll num : left){
-        ans += (upper_bound(right.begin(), right.end(), x - num) - right.begin()) - (lower_bound(right.begin(), right.end(), x - num) - right.begin());
+
+    for(ll i : sums1){
+        auto low = lower_bound(sums2.begin(), sums2.end(), x - i);
+        auto high = upper_bound(sums2.begin(), sums2.end(), x - i);
+        ans += (high - sums2.begin()) - (low - sums2.begin());
     }
     cout << ans << endl;
+
 }
