@@ -1,4 +1,5 @@
 #include "bits/stdc++.h"
+
 using namespace std;
 
 int main(){
@@ -6,59 +7,52 @@ int main(){
     int t;
     cin >> t;
     while(t--){
-        int n;
+        int n ;
         cin >> n;
-        vector<int> v(n);
+        vector<int> a(n);
         for(int i = 0; i < n; i++){
-            cin >> v[i];
+            cin >> a[i];
         }
-
-        unordered_set<int> f;
-
-        vector<int> after(n);
-        for(int i = 0; i < n ; i++){
-            cin >> after[i];
-            f.insert(after[i]);
+        vector<int> b(n);
+        for(int i = 0; i < n; i++){
+            cin >> b[i];
         }
         int m;
         cin >> m;
-        vector<int> op (m);
+        vector<int> d(m);
         for(int i = 0; i < m; i++){
-            int a;
-            cin >> op[i];
+            cin >> d[i];
         }
-        // ==================
 
-        unordered_multiset<int> seq;
-        for(int i = 0 ; i < n; i ++){
-            if(v[i] != after[i])
-                seq.insert(after[i]);
+        multiset<int> s;
+        for(int i = 0; i < n; i ++){
+            if(a[i] != b[i])
+                s.insert(b[i]);
         }
-        vector<int> st;
-        for(int i = 0 ; i < m; i++){
-            int a = op[i];
-            if(seq.count(a)){
-                seq.extract(a);
-                st.clear();
-            }else{
-                if(f.count(a))
-                    st.clear();
-                else st.push_back(a);
+
+        bool last = false;
+        for(auto& num: b){
+            if(d[m-1] == num){
+                last = true;
+                break;
             }
         }
-
-        // for(auto & a : st){
-        //     if(f.count(a) == 0){
-        //         goto no;
-        //     }
-        // }
-
-        if(st.size() || seq.size()){
-            no:
+        if(!last){
             cout << "NO" << endl;
-        }else{
-            cout << "YES" << endl;
+            continue;
         }
-               
+
+        multiset<int> ds (d.begin(), d.end());
+        for(auto& x : s){
+            if(ds.count(x)){
+                ds.erase(ds.find(x));
+            }else{
+                cout << "NO" << endl;
+                goto end;
+            }
+        }
+        cout << "YES" << endl;
+
+        end: ;
     }
 }
