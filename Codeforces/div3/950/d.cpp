@@ -2,93 +2,74 @@
 
 using namespace std;
 
-int gcd(int a, int b){
-    if(b == 0)
-        return a;
-    return gcd(b, a%b);
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
 }
 
 int main(){
     cin.tie(0)->sync_with_stdio(0);
 
     int t;
-    cin >> t;
+    cin >>t ;
     while(t--){
         int n;
         cin >> n;
-        vector<int> v(n);
-        for(int i = 0; i < n; i++){
-            cin >> v[i];
+        vector<int> a(n);
+        for(int i = 0; i < n; i ++){
+            cin >> a[i];
         }
-        vector<int> g(n-1);
-        for (int i = 0; i < n-1; i++){
-            g[i] = gcd(v[i], v[i+1]);
-        }
-
-        bool used = false;
-        bool suc = false;
-        for(int i = 0; i < n-2;  i++){
-            if(g[i] > g[i+1]){
-                if(used){
-                    goto no;
-                    break;
-                }else{
-                    if(i == n-3)
-                        used = true;
-                }
-                int res = gcd(v[i], v[i+2]);
-                if(i == 0){
-                    if(res <= g[i+2]){
-                        used = true;
-                        i++;
-                    }
-                }else if(i < n - 3){
-                    if(res >= g[i-1] && res <= g[i+2]){
-                        used = true;
-                        i++;
-                    }
-                }else{
-                    if(res >= g[i-1]){
-                        used = true;
-                        i++;
-                    }
-                }
-                if(!used)
-                    goto no;
+        int prev = -1;
+        int ind = -1;
+        for(int i = 0 ; i < n-1; i++){
+            int cur = (gcd(a[i], a[i+1]));
+            if(prev > cur){
+                ind = i;
+                break;
             }
+            prev = cur;
         }
-        
-        if(!used){
-            if(g.size() == 2)
-                suc = true;
-            for(int i = 0; i < n-2;  i++){
-                int res = gcd(v[i], v[i+2]);
-                if(i == 0){
-                    if(res <= g[i+2]){
-                        suc = true;
-                        break;
-                    }
-                }else if(i < n - 3){
-                    if(res >= g[i-1] && res <= g[i+2]){
-                        suc = true;
-                        break;
-                    }
-                }else{
-                    if(res >= g[i-1]){
-                        suc = true;
-                        break;
-                    }
-                }
-            }
-            if(suc)
-                cout << "YES" << endl;
-            else
-            no: cout << "NO" << endl;
-        }else{
+        if(ind == -1)
             cout << "YES" << endl;
+        else{
+            // vector<int> v1 (a);
+            // v1.erase(v1.begin() + ind-1);
+            // vector<int> v2 (a);
+            // v2.erase(v2.begin() + ind);
+            // vector<int> v3 (a);
+            // v3.erase(v3.begin() + ind+1);
+
+            vector<int> v[3];
+            v[0] = v[1] = v[2] = vector<int>(a);
+            v[0].erase(v[0].begin() + ind-1);
+            v[1].erase(v[1].begin() + ind);
+            v[2].erase(v[2].begin() + ind+1);
+            
+            bool works = false;
+            for(int c = 0; c < 3; c++){
+                int prev = -1;
+                for(int i = 0; i < n-2; i++){
+                    int cur = gcd(v[c][i], v[c][i+1]);
+                    if(cur < prev){
+                        works = false;
+                        break;
+                    }else
+                        works = true;
+                    prev = cur;
+                }   
+                if(works){
+                    break;
+                }
+            }
+            
+            cout << (works ? "YES" : "NO") << endl;
         }
+
+
         
-
     }
-
 }
