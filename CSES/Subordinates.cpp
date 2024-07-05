@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int arr[200005];
+vector<int> arr(200005);
 vector<int> adj[200005];
 
 void dfs(int cur, int par){
@@ -28,7 +28,7 @@ int main(){
         adj[a].push_back(i);
     }
 
-    dfs(1, -1);
+    dfs(1, 0);
     for(int i = 1; i <= n; i++){
         cout << arr[i];
         if(i != n) cout << " ";
