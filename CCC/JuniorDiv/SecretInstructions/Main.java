@@ -14,10 +14,12 @@ public class Main {
             String res = "";
             if (sum %2 == 1){
                 res += "left";
-            }else if(sum %2 == 0){
-                res += "right";
+                dir = 0;
+            }else if(sum == 0){
+                res += (dir == 0)? "left" : "right";
             }else{
-                res += (dir == 0 )? "left" : "right";
+                res += "right";
+                dir = 1;
             }
             res += " " + s.substring(2);
             System.out.println(res);
