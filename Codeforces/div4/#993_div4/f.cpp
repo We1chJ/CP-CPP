@@ -1,5 +1,6 @@
 #include "bits/stdc++.h"
 
+using ll = long long;
 using namespace std;
 
 int main(){
@@ -9,7 +10,7 @@ int main(){
     cin >> n >> m >> q;
 
     vector<int> a(n), b(m);
-    int suma = 0, sumb = 0;
+    ll suma = 0, sumb = 0;
     for(int i = 0 ; i < n; i++){
         cin >> a[i];
         suma += a[i];
@@ -19,44 +20,34 @@ int main(){
         sumb += b[i];
     }
 
-    vector<int> fa, fb;
-    for(auto & numa: a){
-        fa.push_back(suma - numa);
+    set<ll> fa, fb;
+    for(int i = 0; i < n; i++){
+        fa.insert(suma-a[i]);
     }
     
-    for(auto & numb: b){
-        fb.push_back(sumb - numb);
+     for(int i = 0; i < m; i++){
+        fb.insert(sumb - b[i]);
     }
-    
-    sort(fa.begin(), fa.end());
-    sort(fb.begin(), fb.end());
 
     for(int i = 0; i < q; i++){
-        int x;
+        ll x;
         cin >> x;
-        bool isFound = false;
-        int sqrt_x = sqrt(abs(x));
-        
-        auto sta = lower_bound(fa.begin(), fa.end(), -sqrt_x);
-        while(sta != fa.end() && abs(*sta) <= sqrt_x){
-            int num = *sta;
-            if(num != 0 && x%num == 0 && (lower_bound(fb.begin(), fb.end(), x/num) != fb.end()) && *lower_bound(fb.begin(), fb.end(), x/num) == x/num){
-                isFound = true;
-                break;
-            }
-            sta++;
-        }
+        bool found = false;
+        for(int num = 1; num*num <= abs(x); num++){
 
-        auto stb = lower_bound(fb.begin(), fb.end(), -sqrt_x);
-        
-        while(stb != fb.end() && abs(*stb) <= sqrt_x){
-            int num = *stb;
-            if(num != 0 && x%num == 0 && lower_bound(fa.begin(), fa.end(), x/num) != fa.end() && *lower_bound(fa.begin(), fa.end(), x/num) == x/num){
-                isFound = true;
-                break;
+            if(x%num == 0 && num*(x/num) == x){
+                if((fa.count(num) && fb.count(x/num)) || (fb.count(num) && fa.count(x/num))){
+                    found = true;
+                    break;
+                }
+                num *= -1;
+                if((fa.count(num) && fb.count(x/num)) || (fb.count(num) && fa.count(x/num))){
+                    found = true;
+                    break;
+                }
+                num *= -1;
             }
-            stb++;
         }
-        cout << (isFound ? "YES" : "NO") << endl;
+        cout << (found ? "YES" : "NO") << endl;
     }
 }
