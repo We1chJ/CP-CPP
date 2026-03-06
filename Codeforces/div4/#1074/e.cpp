@@ -21,7 +21,7 @@ int main(){
         string s;
         cin >> s;
         int cur = 0;
-        int mxl = INT_MAX;
+        int mxl = INT_MIN;
         int mxr = INT_MIN;
         vector<int> left(k);
         vector<int> right(k);
@@ -33,12 +33,17 @@ int main(){
                 cur++;
             }
 
-            mxl = min(mxl, cur);
-            mxr = max(mxr, cur);
+            if(cur <= 0) mxl = max(mxl, abs(cur));
+            else mxr = max(mxr, cur);
 
             left[i] = mxl;
             right[i] = mxr;
         }
+
+        // for(auto & a : left){
+        //     cout << a << " ";
+        // }
+        // cout << endl;
 
 
         vector<int> ans(k, 0);
@@ -55,20 +60,19 @@ int main(){
                 }
             }
 
+            // cout << ind << endl;
 
             it = lower_bound(spikes.begin(), spikes.end(), r);
             if(it != spikes.begin()){
                 it--;
                 // left side
-                int dif = *it-r;
-                it = upper_bound(left.begin(), left.end(), dif);
-                if(left.size() > 1){
-                    it--;
+                int dif = r-(*it); // distance to move to the left
+                it = lower_bound(left.begin(), left.end(), dif);
+                if(it != left.end()){
                     ind = min(ind, (int)(it - left.begin()));
-                    cout << ind << endl;
                 }
             }
-            
+            // cout << ind << endl;
             if(ind != INT_MAX){
                 ans[ind]--;
             }
